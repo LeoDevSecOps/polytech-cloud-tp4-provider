@@ -19,7 +19,8 @@ console.log(`Server started on port ${config.port}`)
 const supportedType = ['verb', 'subject', 'adjective']
 supportedType.forEach(async type => {
   try {
-    return await axios.put(config.register_url, {url: config.host, type: type.toUpperCase()}).then(response => console.log(response))
+    await axios.put(config.register_url, {url: config.host, type: type.toUpperCase()}).then(response => console.log(response))
+    await axios.put(config.register_master_url, {url: config.host, type: type.toUpperCase()}).then(response => console.log(response))
   } catch (error) {
     console.error(error)
   }
