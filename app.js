@@ -12,7 +12,7 @@ app.use(morgan("combined"))
 
 require('./routes')(app)
 
-app.listen(config.port)
+const server = app.listen(config.port)
 console.log(`Server started on port ${config.port}`)
 
 // register
@@ -24,3 +24,14 @@ supportedType.forEach(async type => {
     console.error(error)
   }
 });
+
+function handleShutdownGracefully() {
+  console.log('Gracefully shutdown application.')
+  server.close(() => {
+    console.log('Server closed.')
+  })  
+}
+
+process.on("SIGINT", handleShutdownGracefully)
+process.on("SIGTERM", handleShutdownGracefully)
+process.on("SIGHUP", handleShutdownGracefully)
